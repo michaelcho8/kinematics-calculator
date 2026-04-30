@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Kinematics Calculator — Solve for Velocity, Acceleration, Displacement &amp; Time</title>
+  <meta name="description" content="Free kinematics calculator. Enter any 3 SUVAT variables and instantly solve for the other 2. Also includes projectile motion calculator." />
+  <meta name="keywords" content="kinematics calculator, SUVAT calculator, projectile motion calculator, solve for acceleration, kinematic equations solver, physics calculator" />
+  <link rel="canonical" href="https://YOURDOMAIN.com/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Kinematics Calculator — Solve SUVAT & Projectile Motion" />
+  <meta property="og:description" content="Enter any 3 SUVAT variables and solve for the other 2 instantly. Also solves projectile motion." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://YOURDOMAIN.com/" />
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Kinematics Calculator",
+    "description": "Free physics calculator for 1D kinematics (SUVAT) and projectile motion. Enter any 3 of 5 variables and solve instantly.",
+    "applicationCategory": "EducationApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2584209104913819" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="hero">
+    <div class="container">
+      <h1>Kinematics Calculator</h1>
+      <p class="tagline">Enter any 3 of 5 SUVAT variables and solve for the other 2 instantly. Also solves projectile motion.</p>
+    </div>
+  </header>
+
+  <!-- Ad: below hero -->
+  <div class="ad-slot container">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2584209104913819"
+      data-ad-slot="SLOT_ID_HERE" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <main class="container">
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="tab-1d">1D Kinematics</button>
+      <button class="tab-btn" data-tab="tab-projectile">Projectile Motion</button>
+    </div>
+
+    <!-- ===== 1D Kinematics ===== -->
+    <div id="tab-1d" class="tab-pane card">
+
+      <!-- Equations reference -->
+      <div class="eq-ref">
+        <span>v = u + at</span>
+        <span>s = ut + ½at²</span>
+        <span>v² = u² + 2as</span>
+        <span>s = ½(u + v)t</span>
+      </div>
+
+      <!-- 5 variable inputs -->
+      <div class="var-grid">
+
+        <div class="var-group">
+          <label for="in-u">
+            <span class="var-sym">u</span>
+            <span class="var-name">Initial velocity</span>
+          </label>
+          <div class="var-input-row">
+            <input type="number" id="in-u" placeholder="—" step="any" />
+            <span class="var-unit">m/s</span>
+          </div>
+        </div>
+
+        <div class="var-group">
+          <label for="in-v">
+            <span class="var-sym">v</span>
+            <span class="var-name">Final velocity</span>
+          </label>
+          <div class="var-input-row">
+            <input type="number" id="in-v" placeholder="—" step="any" />
+            <span class="var-unit">m/s</span>
+          </div>
+        </div>
+
+        <div class="var-group">
+          <label for="in-a">
+            <span class="var-sym">a</span>
+            <span class="var-name">Acceleration</span>
+          </label>
+          <div class="var-input-row">
+            <input type="number" id="in-a" placeholder="—" step="any" />
+            <span class="var-unit">m/s²</span>
+          </div>
+        </div>
+
+        <div class="var-group">
+          <label for="in-s">
+            <span class="var-sym">s</span>
+            <span class="var-name">Displacement</span>
+          </label>
+          <div class="var-input-row">
+            <input type="number" id="in-s" placeholder="—" step="any" />
+            <span class="var-unit">m</span>
+          </div>
+        </div>
+
+        <div class="var-group">
+          <label for="in-t">
+            <span class="var-sym">t</span>
+            <span class="var-name">Time</span>
+          </label>
+          <div class="var-input-row">
+            <input type="number" id="in-t" placeholder="—" min="0" step="any" />
+            <span class="var-unit">s</span>
+          </div>
+        </div>
+
+      </div><!-- /var-grid -->
+
+      <!-- Status line -->
+      <p id="status" class="status neutral">Fill in any 3 values to solve (0/3)</p>
+
+      <!-- Results -->
+      <div id="result-card" class="result-card hidden">
+        <h3>Solution</h3>
+        <div id="result-body" class="result-body"></div>
+      </div>
+
+      <button id="clear-btn" class="btn-secondary" style="margin-top:16px">Clear All</button>
+
+    </div><!-- /tab-1d -->
+
+    <!-- ===== Projectile Motion ===== -->
+    <div id="tab-projectile" class="tab-pane card hidden">
+
+      <h2>Projectile Motion</h2>
+      <p class="hint">Enter initial speed, launch angle, and gravity. Results update instantly.</p>
+
+      <div class="proj-inputs">
+        <label>
+          <span>Initial speed v₀</span>
+          <div class="var-input-row">
+            <input type="number" id="proj-v0" placeholder="e.g. 20" min="0" step="any" />
+            <span class="var-unit">m/s (or ft/s)</span>
+          </div>
+        </label>
+        <label>
+          <span>Launch angle θ</span>
+          <div class="var-input-row">
+            <input type="number" id="proj-angle" placeholder="0–90" min="0" max="90" step="1" />
+            <span class="var-unit">degrees</span>
+          </div>
+        </label>
+        <label>
+          <span>Gravity g</span>
+          <select id="proj-gravity">
+            <option value="9.8">9.8 m/s² (standard)</option>
+            <option value="9.81">9.81 m/s² (precise)</option>
+            <option value="32.174">32.174 ft/s² (imperial)</option>
+          </select>
+        </label>
+      </div>
+
+      <div id="proj-results" class="proj-results">
+        <p class="hint">Enter a positive speed and an angle between 0° and 90°.</p>
+      </div>
+
+    </div><!-- /tab-projectile -->
+
+    <!-- Ad: mid-page -->
+    <div class="ad-slot">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2584209104913819"
+        data-ad-slot="SLOT_ID_HERE" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- SEO explainer -->
+    <section class="card explainer">
+      <h2>Kinematic Equations — SUVAT Reference</h2>
+      <p>These four equations relate the five kinematic variables: initial velocity (u), final velocity (v), acceleration (a), displacement (s), and time (t). If you know any three, you can solve for the other two.</p>
+
+      <div class="eq-table">
+        <div class="eq-row"><span class="eq">v = u + at</span><span class="eq-note">Final velocity from initial velocity, acceleration, and time</span></div>
+        <div class="eq-row"><span class="eq">s = ut + ½at²</span><span class="eq-note">Displacement when acceleration is constant</span></div>
+        <div class="eq-row"><span class="eq">v² = u² + 2as</span><span class="eq-note">Relates velocity and displacement without time</span></div>
+        <div class="eq-row"><span class="eq">s = ½(u + v)t</span><span class="eq-note">Average velocity × time (constant acceleration only)</span></div>
+      </div>
+
+      <h3>How projectile motion works</h3>
+      <p>Projectile motion decomposes into two independent components: horizontal (constant velocity, no acceleration) and vertical (accelerated by gravity). The calculator applies these formulas:</p>
+      <ul class="eq-list">
+        <li><strong>vₓ = v₀ cos θ</strong> — horizontal component</li>
+        <li><strong>vᵧ = v₀ sin θ</strong> — vertical component</li>
+        <li><strong>T = 2vᵧ / g</strong> — total time of flight</li>
+        <li><strong>H = vᵧ² / 2g</strong> — maximum height</li>
+        <li><strong>R = vₓ · T</strong> — horizontal range</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Free tool for students and engineers. Results assume constant acceleration and no air resistance.</p>
+    </div>
+  </footer>
+
+  <!-- Ad: footer -->
+  <div class="ad-slot container ad-footer">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2584209104913819"
+      data-ad-slot="SLOT_ID_HERE" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <script src="js/kinematics.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
