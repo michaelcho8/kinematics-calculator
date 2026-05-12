@@ -2,6 +2,7 @@
 // exposed on window) and the SVG graph renderer (graph.js, ES module).
 
 import { drawPositionTime, drawVelocityTime, draw2DPath, drawProjectile } from './graph.js';
+import { encodeState, decodeState, buildShareUrl } from './storage.js';
 
 const VARS_1D    = ["u", "v", "a", "s", "t"];
 const LABELS_1D  = { u: "Initial velocity", v: "Final velocity", a: "Acceleration", s: "Displacement", t: "Time" };
@@ -16,6 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
   init1D();
   init2D();
   initProjectile();
+  initShareButtons();
+  hydrateFromUrl();
 });
 
 // ═══════════════ Tabs ═══════════════════════════════════════════════
@@ -289,6 +292,96 @@ function solveProjectileUI() {
 
   drawProjectile(document.getElementById("graph-projectile"), { v0, angle, g });
   graphWrap.classList.remove("hidden");
+}
+
+// ═══════════════ Share buttons ═══════════════════════════════════════
+
+function initShareButtons() {
+  const share = (btn, getState) => btn && btn.addEventListener("click", () => {
+    const url = buildShareUrl(getState());
+    navigator.clipboard.writeText(url).then(() => flashButton(btn, "URL copied!"));
+  });
+
+  share(document.getElementById("share-1d-btn"), () => ({
+    tab: "1d",
+    inputs: pickValues(VARS_1D, "in-"),
+  }));
+
+  share(document.getElementById("share-2d-btn"), () => {
+    // 2D inputs use in-t2 but URL uses canonical name `t`
+    const raw = pickValues(VARS_2D, "in-");
+    return {
+      tab: "2d",
+      inputs: { ux: raw.ux, uy: raw.uy, ax: raw.ax, ay: raw.ay, t: raw.t2 },
+    };
+  });
+
+  share(document.getElementById("share-proj-btn"), () => ({
+    tab: "proj",
+    inputs: {
+      v0:    document.getElementById("proj-v0").value.trim(),
+      theta: document.getElementById("proj-angle").value.trim(),
+      g:     document.getElementById("proj-gravity").value,
+    },
+  }));
+}
+
+function pickValues(keys, prefix) {
+  const out = {};
+  for (const k of keys) {
+    const raw = document.getElementById(prefix + k).value.trim();
+    if (raw !== "") out[k] = raw;
+  }
+  return out;
+}
+
+function flashButton(btn, message, durationMs = 1500) {
+  const original = btn.textContent;
+  btn.textContent = message;
+  btn.classList.add("copied");
+  setTimeout(() => {
+    btn.textContent = original;
+    btn.classList.remove("copied");
+  }, durationMs);
+}
+
+// ═══════════════ URL hydration ═══════════════════════════════════════
+
+function hydrateFromUrl() {
+  const state = decodeState(window.location.search);
+  if (!state) return;
+
+  // Switch to the requested tab
+  const tabId = tabIdFor(state.tab);
+  if (!tabId) return;
+  const tabBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+  if (tabBtn) tabBtn.click();
+
+  // Fill inputs
+  if (state.tab === "1d") {
+    for (const k of VARS_1D) {
+      const v = state.inputs[k];
+      if (v !== undefined) document.getElementById("in-" + k).value = v;
+    }
+    tryAutoSolve1D();
+  } else if (state.tab === "2d") {
+    // URL uses canonical `t`, internal id is `in-t2`
+    const map = { ux: "in-ux", uy: "in-uy", ax: "in-ax", ay: "in-ay", t: "in-t2" };
+    for (const [urlKey, elId] of Object.entries(map)) {
+      const v = state.inputs[urlKey];
+      if (v !== undefined) document.getElementById(elId).value = v;
+    }
+    tryAutoSolve2D();
+  } else if (state.tab === "proj") {
+    if (state.inputs.v0    !== undefined) document.getElementById("proj-v0").value = state.inputs.v0;
+    if (state.inputs.theta !== undefined) document.getElementById("proj-angle").value = state.inputs.theta;
+    if (state.inputs.g     !== undefined) document.getElementById("proj-gravity").value = state.inputs.g;
+    solveProjectileUI();
+  }
+}
+
+function tabIdFor(tab) {
+  return { "1d": "tab-1d", "2d": "tab-2d", "proj": "tab-projectile" }[tab] || null;
 }
 
 // ═══════════════ Helpers ═════════════════════════════════════════════
