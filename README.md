@@ -1,11 +1,22 @@
 # [[kinematics-calculator|Kinematics Calculator]] — Web Tool
 
-**Status: Built and tested. Ready to deploy.**
-Tests: 19/19 passing. Git repo initialized.
+**Status: v2 built (2026-05-12). Awaiting deploy via Cloudflare Pages Git-connect.**
 
-A free physics calculator for students and engineers. Two tabs: 1D kinematics (solve for any 2 of 5 SUVAT variables given 3) and projectile motion. Auto-solves on input — no submit button needed. Clean, mobile-friendly UI.
+Tests: 35/35 passing (19 v1 + 16 new 2D).
+Code: `EA/projects/kinematics-calculator/` (nested git repo inside the EA vault).
+Repo: [github.com/michaelcho8/kinematics-calculator](https://github.com/michaelcho8/kinematics-calculator) (public).
 
-Education-niche AdSense CPM: **$6–15 RPM**. Secondary engine: drives tutoring inquiries directly.
+A free physics calculator for students and engineers. Three tabs:
+
+- **1D Kinematics** — solve for any 2 of 5 SUVAT variables given 3
+- **2D Motion** — provide initial velocity vector, acceleration vector, and time; get final vector + displacement + magnitudes + angles
+- **Projectile Motion** — initial speed, launch angle, gravity → flight path and key metrics
+
+All three tabs include visual graphs (inline SVG). Position-vs-time and velocity-vs-time for 1D; 2D trajectory; parabolic flight path for projectile.
+
+Shareable URLs encode the current tab + inputs (`?tab=1d&u=0&v=10&a=2`). Tutoring CTA card links to `mailto:choind88@gmail.com` (Cho Industries).
+
+Education-niche AdSense CPM: **$6–15 RPM**. Drives direct tutoring inquiries.
 
 ---
 
@@ -13,11 +24,19 @@ Education-niche AdSense CPM: **$6–15 RPM**. Secondary engine: drives tutoring 
 
 | File | What it does |
 | --- | --- |
-| `index.html` | Page structure, two-tab layout, SEO tags, AdSense script |
-| `style.css` | Visual design — same design system as ETF rebalancer and FIRE calculator |
-| `js/kinematics.js` | Pure math: `solve1D()` (10 variable combinations), `solveProjectile()` |
-| `js/main.js` | DOM wiring — tab switching, auto-solve on 3 inputs, projectile live updates |
-| `test.js` | 19 tests across 1D solver cases and projectile — run with `node test.js` |
+| `index.html` | Page structure, three-tab layout, hero SVG, SEO tags, AdSense `<ins>` blocks, JSON-LD |
+| `style.css` | Visual design — consumes `tokens.css`. Blueprint surfaces, sky hero, mobile responsive |
+| `tokens.css` | Design tokens. Shared with readcron + (planned) FIRE Calculator. `[shared]` vs `[tool]` portability markers. |
+| `js/kinematics.js` | Pure math: `solve1D()` (10 SUVAT combinations), `solveProjectile()`, `solve2D()` |
+| `js/main.js` | DOM wiring — ES module. Tab switching, auto-solve, result rendering, graph rendering, share buttons, URL hydration |
+| `js/graph.js` | Inline-SVG graph renderer — 4 graph types (position-time, velocity-time, 2D path, projectile parabola) |
+| `js/storage.js` | URL state codec (no localStorage). Encode + decode + buildShareUrl |
+| `test.js` | Node test suite — 35 tests across 1D + projectile + 2D |
+| `.assetsignore` | CF Pages: exclude `node_modules`, `.wrangler`, `.git` from asset uploads (defensive) |
+| `wrangler.jsonc` | CF Pages: pin project name + assets directory (defensive) |
+| `build-log.md` | Cross-session continuity tracker |
+| `docs/redesign-notes.md` | Incremental learning doc — why behind each design decision |
+| `CHANGELOG.md` | Keep-a-Changelog format |
 
 ---
 
@@ -31,49 +50,65 @@ python3 -m http.server 8788
 
 Open: <http://localhost:8788>
 
----
-
-## Deploy checklist
-
-### 1 — Push to GitHub
+Run tests:
 
 ```bash
-git remote add origin https://github.com/YOURUSERNAME/kinematics-calculator.git
-git push -u origin main
+node test.js
 ```
 
-Create the repo first at github.com (public, no README — one already exists).
+---
 
-### 2 — Deploy on Netlify
+## Deploy — Cloudflare Pages via Git-connect
 
-1. netlify.com → Add new site → Import from GitHub → pick repo
-2. Leave build settings empty (static site, no build command)
-3. Click Deploy — live in ~60 seconds
+Replaces the v1 Netlify path. Aligns with the 2026-05-09 hosting decision that moved all the web tools to CF Pages.
 
-### 3 — Buy a domain (~$10/yr on Porkbun)
+### 1 — Sign in to Cloudflare
 
-Suggested names (check availability at porkbun.com):
+1. dash.cloudflare.com — sign in or create account (`michael.sm.cho@gmail.com`, phone verification required)
+2. Left sidebar → **Workers & Pages** → **Create application** → **Pages** tab → **Connect to Git**
+
+### 2 — Connect the repo
+
+1. Pick **michaelcho8/kinematics-calculator**
+2. **Project name:** `kinematics-calculator` (or `kinematics` — your call)
+3. **Production branch:** `main`
+4. **Framework preset:** **None** ← critical
+5. **Build command:** leave empty
+6. **Build output directory:** leave empty
+7. **Save and Deploy**
+
+Why "None" framework + empty build: kinematics has no `package.json` and no build step. CF should treat the repo as pure static and serve files directly. If CF's auto-detection tries to run wrangler anyway, the `.assetsignore` and `wrangler.jsonc` in the repo cap the blast radius.
+
+### 3 — Verify
+
+After ~30–60 seconds CF gives you a `*.pages.dev` URL. Hit it:
+
+- All 3 tabs render and switch
+- Each tab's solve produces a result + a graph
+- Share button copies a URL with state; opening it in a fresh tab hydrates inputs
+- Tutoring CTA opens `mailto:choind88@gmail.com`
+- View source: AdSense `<ins>` blocks present with placeholder slot IDs
+
+### 4 — Create AdSense slots
+
+1. adsense.google.com → Ads → By ad unit → create 3 Display units
+2. Copy each slot ID, swap the three `SLOT_ID_HERE` placeholders in `index.html`
+3. Commit + push → CF Pages auto-redeploys
+
+### 5 — Custom domain (later)
+
+Buy a `.com` (~$10/yr on Porkbun) once revenue or impressions justify the spend. Suggested names:
 
 - `kinematicsolver.com`
-- `suvat.io`
 - `suvatcalc.com`
 - `physicsolver.com`
 
-After buying: Netlify → Site settings → Domain management → Add custom domain → follow DNS instructions.
+In CF Pages project: Settings → Custom domains → Add → follow the DNS instructions (or hand DNS to Cloudflare for the cleanest flow).
 
-### 4 — Swap the placeholders in index.html
-
-| Placeholder | Replace with | Where to get it |
-| --- | --- | --- |
-| `YOURDOMAIN.com` | your actual domain | After step 3 |
-| `SLOT_ID_HERE` (×3) | AdSense slot IDs | adsense.google.com → Ads → By ad unit → create 3 Display units |
-
-The AdSense publisher ID (`ca-pub-2584209104913819`) is already wired.
-
-### 5 — Submit to Google Search Console
+### 6 — Submit to Google Search Console
 
 1. search.google.com/search-console → Add property
-2. Verify via DNS record
+2. Verify (DNS record is cleanest with the domain on CF)
 3. Request indexing on homepage URL
 
 ---
@@ -83,43 +118,39 @@ The AdSense publisher ID (`ca-pub-2584209104913819`) is already wired.
 ### Immediate (at launch)
 
 - **Google AdSense** — 3 display units. Education niche has lower CPM than finance, but the audience has high dwell time (students work through problems) and exam-period traffic spikes in May, November, January.
-- **Tutoring CTA** — add a card below the calculator: "Stuck on physics? Book a 1-on-1 session → $75/hr, first session free." Direct conversion from the tool's exact target audience into tutoring revenue. No ads needed — one booking pays more than 2,000 ad impressions.
-- **Cross-link to [[fire-calculator|FIRE Calculator]]** — add a footer link. Kinematics students may be college-age and curious about money; FIRE calculator is a natural next tool.
+- **Tutoring CTA** — card below the calculator: "Stuck on a physics problem? I tutor STEM 1-on-1. First session is free." Direct conversion from the exact target audience. No ads needed — one booking pays more than 2,000 ad impressions.
+- **Cross-link to other tools** — once the FIRE Calculator deploys, add a footer link. Kinematics students may be college-age and curious about money.
 
 ### Short-term (100–500 users)
 
-- **Amazon Associates** — add contextual affiliate links in the SEO explainer section to relevant textbooks:
-  - Serway & Jewett "Physics for Scientists and Engineers"
-  - Halliday/Resnick "Fundamentals of Physics"
-  - AP Physics prep books
+- **Amazon Associates** — affiliate links in the SEO explainer section for textbooks (Serway & Jewett, Halliday/Resnick, AP Physics prep books). 4–8% per sale. Low effort once set up.
+- **Share-link distribution** — every Wyzant tutoring student gets the URL as a free resource. Compounds backlinks if other tutors share it.
 
-  These earn 4–8% per sale. Low effort once set up; converts well for a tool students are already using for homework.
-- **Share link for tutors** — "Send this tool to your students." If other tutors share it, organic backlinks compound the SEO value.
+### Phase 3 (500+ users, validated demand)
 
-### Phase 2 (500+ users, validated demand)
-
-- **Trajectory visualization** — Chart.js parabola diagram for projectile motion. High SEO value ("projectile motion graph calculator") and increases time-on-page, which improves AdSense RPM.
-- **Shareable result URLs** — encode the inputs in the URL so students can share solved problems (e.g., `?u=0&a=9.8&t=3`). Drives return visits and backlinks.
-- **Circular motion + energy + momentum** — extends the tool's keyword coverage and tutoring relevance.
-
----
-
-## Tutoring integration
-
-This tool is a natural entry point for tutoring inquiries. When deployed:
-
-1. Send the URL to every physics or pre-calc tutoring student as a free resource
-2. Every student who uses it during a session is a potential referral — they share it with classmates
-3. The tool's organic Google traffic brings in students who don't know you yet, and the tutoring CTA converts them
-
-Suggested CTA card text for `index.html` (add after the calculator, before the SEO explainer):
-> **Need help with physics?** I'm a physics and math tutor with 13+ years of experience. First session free. → [Book a session]
+- **Saved expressions / problem sets** (localStorage layer) — students return to revisit specific problems
+- **Circular motion + energy + momentum tabs** — extends keyword coverage and tutoring relevance
+- **MathJax / equation rendering** — full Greek + sub/superscript rendering in the explainer section
 
 ---
 
 ## SEO targets
 
-Primary: "kinematics calculator", "SUVAT calculator"
-Secondary: "projectile motion calculator", "solve for acceleration", "kinematic equations solver"
+Primary: "kinematics calculator", "SUVAT calculator", "2D kinematics calculator"
+Secondary: "projectile motion calculator", "position time graph calculator", "velocity time graph", "solve for acceleration", "kinematic equations solver"
 
-The SUVAT reference table in the explainer section captures long-tail queries like "how to solve kinematics equations" and "what is SUVAT" that students search during exam prep.
+The full reference section (SUVAT + 2D component equations + projectile decomposition) targets long-tail queries.
+
+---
+
+## Tutoring integration
+
+This tool is the entry point for tutoring inquiries from search traffic. When deployed:
+
+1. Send the URL to every physics or pre-calc tutoring student as a free resource
+2. Every student who uses it during a session is a potential referral
+3. The tool's Google traffic brings in students who don't know me yet, and the tutoring CTA converts them
+
+CTA card content (currently in `index.html`):
+
+> **Stuck on a physics problem?** I tutor STEM 1-on-1 — SAT, AP Physics, intro college mechanics. First session is free. → [Book a session](mailto:choind88@gmail.com?subject=Physics%20tutoring%20inquiry)
