@@ -1,6 +1,6 @@
-# Kinematics Calculator — Implementation Plan
+# [[kinematics-calculator|Kinematics Calculator]] — Implementation Plan
 
-**Goal:** 1D kinematics solver (any 3 of 5 variables) + projectile motion calculator. Pure frontend, same stack as FIRE Calculator and ReadCron.
+**Goal:** 1D kinematics solver (any 3 of 5 variables) + projectile motion calculator. Pure frontend, same stack as [[fire-calculator|FIRE Calculator]] and [[readcron|ReadCron]].
 
 ---
 

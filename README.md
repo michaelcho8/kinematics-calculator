@@ -1,4 +1,4 @@
-# Kinematics Calculator — Web Tool
+# [[kinematics-calculator|Kinematics Calculator]] — Web Tool
 
 **Status: Built and tested. Ready to deploy.**
 Tests: 19/19 passing. Git repo initialized.
@@ -84,7 +84,7 @@ The AdSense publisher ID (`ca-pub-2584209104913819`) is already wired.
 
 - **Google AdSense** — 3 display units. Education niche has lower CPM than finance, but the audience has high dwell time (students work through problems) and exam-period traffic spikes in May, November, January.
 - **Tutoring CTA** — add a card below the calculator: "Stuck on physics? Book a 1-on-1 session → $75/hr, first session free." Direct conversion from the tool's exact target audience into tutoring revenue. No ads needed — one booking pays more than 2,000 ad impressions.
-- **Cross-link to FIRE Calculator** — add a footer link. Kinematics students may be college-age and curious about money; FIRE calculator is a natural next tool.
+- **Cross-link to [[fire-calculator|FIRE Calculator]]** — add a footer link. Kinematics students may be college-age and curious about money; FIRE calculator is a natural next tool.
 
 ### Short-term (100–500 users)
 

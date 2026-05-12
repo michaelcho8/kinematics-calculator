@@ -1,4 +1,4 @@
-# Kinematics Calculator — Design Spec
+# [[kinematics-calculator|Kinematics Calculator]] — Design Spec
 
 **Date:** 2026-04-27
 **Status:** Approved
