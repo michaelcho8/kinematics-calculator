@@ -1,0 +1,173 @@
+/* ────────────────────────────────────────────────────────────────────────
+ * Kinematics Calculator v2 — Design Tokens
+ *
+ * Ported from the cron-builder/readcron tokens.css (2026-05-11).
+ * Same taxonomy: [shared] tokens travel across tools; [tool] tokens override
+ * per tool. This file changes only the [tool] accent family + adds a
+ * blueprint-paper background variant.
+ *
+ * Loaded BEFORE style.css. Style rules reference these custom properties.
+ *
+ * Portability marker:
+ *   [shared]  — token is shared across ReadCron + FIRE + Kinematics
+ *   [tool]    — token is overridden per tool
+ *
+ * To port to FIRE: copy this file, change only [tool] tokens.
+ * ──────────────────────────────────────────────────────────────────────── */
+
+:root {
+
+  /* ── Palette ─────────────────────────────────────────────────────────── */
+
+  /* [shared] Ink — primary text, hero, dark sections */
+  --color-ink:        #0E1F3D;  /* deep navy */
+  --color-ink-soft:   #475569;  /* secondary text */
+  --color-ink-mute:   #94A3B8;  /* tertiary / footer */
+
+  /* [tool] Accent — Kinematics goes blueprint-blue.
+     Chosen for the "relaxing, casual blueprint" brief — deep enough to read
+     as technical drafting but soft enough not to feel industrial. */
+  --color-accent:       #0F4C81;  /* classic blueprint blue */
+  --color-accent-soft:  #D9EBF7;  /* pale sky-tinted highlight bg */
+  --color-accent-deep:  #0B3A66;  /* darker blueprint for hover */
+
+  /* [shared] Brand blue — alternating section accents, secondary chips.
+     For Kinematics this complements rather than competes with --color-accent. */
+  --color-brand:        #3D4FFF;
+  --color-brand-soft:   #E0E4FF;
+  --color-brand-deep:   #2E3CC9;
+
+  /* [shared] Section backgrounds */
+  --color-surface:      #FFFFFF;
+  --color-surface-alt:  #F8FAFC;
+  --color-cream:        #FAF4E8;  /* warm off-white — the "relaxing" surface */
+
+  /* [tool] Blueprint paper — a specific Kinematics surface variant that
+     evokes actual blueprint paper. Used on the hero background and graph
+     panels. White grid lines on this color = the design system's signature. */
+  --color-blueprint:        #1D6FB8;  /* mid-blueprint paper tone */
+  --color-blueprint-soft:   #E8F2FB;  /* pale wash for cards on blueprint sections */
+  --color-blueprint-deep:   #0B3A66;  /* deep blueprint for high-contrast text on white */
+
+  /* [tool] Sky — the second image (paper airplane in clouds) leans into a
+     soft sky-blue. Lighter than blueprint, used for graph backgrounds and
+     trajectory line accents. */
+  --color-sky:        #8EC5E8;
+  --color-sky-soft:   #DCEEF8;
+
+  /* [shared] Yellow — confetti / accent shapes only. Not for CTAs. */
+  --color-sun:          #FFD43A;
+
+  /* [shared] Borders and dividers */
+  --color-border:       #E2E8F0;
+  --color-border-soft:  #F1F5F9;
+
+  /* [shared] Status */
+  --color-error:        #DC2626;
+  --color-error-deep:   #991B1B;
+  --color-error-soft:   #FEF2F2;
+  --color-success:      #16A34A;
+  --color-success-soft: #D1FAE5;
+  --color-warn:         #F59E0B;
+  --color-warn-soft:    #FEF3C7;
+
+  /* ── Typography ──────────────────────────────────────────────────────── */
+
+  /* [shared] Plus Jakarta Sans for display + body. Monospace for numbers. */
+  --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-body:    'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono:    ui-monospace, 'Cascadia Code', 'SF Mono', 'Menlo', 'Courier New', monospace;
+
+  /* [shared] Type scale — modular, 1.25 ratio between major steps */
+  --text-xs:    0.75rem;    /* 12px */
+  --text-sm:    0.875rem;   /* 14px */
+  --text-base:  1rem;       /* 16px */
+  --text-md:    1.125rem;   /* 18px */
+  --text-lg:    1.25rem;    /* 20px */
+  --text-xl:    1.5rem;     /* 24px */
+  --text-2xl:   2rem;       /* 32px */
+  --text-3xl:   2.5rem;     /* 40px */
+  --text-4xl:   3.25rem;    /* 52px */
+
+  /* [shared] Line heights */
+  --leading-tight: 1.1;
+  --leading-snug:  1.2;
+  --leading-base:  1.5;
+  --leading-loose: 1.7;
+
+  /* [shared] Letter spacing */
+  --tracking-display: -0.03em;
+  --tracking-tight:   -0.015em;
+  --tracking-normal:  0;
+  --tracking-label:    0.07em;
+
+  /* [shared] Weights */
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-bold:    700;
+  --weight-black:   800;
+
+  /* ── Spacing scale ───────────────────────────────────────────────────── */
+
+  /* [shared] 4px base */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-7:  48px;
+  --space-8:  64px;
+  --space-9:  96px;
+
+  /* ── Radius ──────────────────────────────────────────────────────────── */
+
+  /* [shared] */
+  --radius-sm:    6px;
+  --radius-md:    10px;
+  --radius-lg:    16px;
+  --radius-xl:    24px;
+  --radius-pill:  999px;
+
+  /* ── Shadows ─────────────────────────────────────────────────────────── */
+
+  /* [shared] */
+  --shadow-soft: 0 1px 3px rgba(14, 31, 61, 0.06),
+                 0 4px 16px rgba(14, 31, 61, 0.06);
+  --shadow-lift: 0 6px 16px rgba(14, 31, 61, 0.10),
+                 0 16px 32px rgba(14, 31, 61, 0.08);
+
+  /* ── Motion ──────────────────────────────────────────────────────────── */
+
+  /* [shared] */
+  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+
+  --dur-fast:    150ms;
+  --dur-base:    240ms;
+  --dur-slow:    400ms;
+  --dur-slower:  640ms;
+
+  /* ── Z-index ─────────────────────────────────────────────────────────── */
+
+  /* [shared] */
+  --z-sticky:   10;
+  --z-overlay:  100;
+  --z-modal:    1000;
+
+  /* ── Layout maxima ───────────────────────────────────────────────────── */
+
+  /* [shared] */
+  --maxw-narrow:   720px;
+  --maxw-wide:    1080px;
+
+  /* ── Blueprint grid (tool-specific decoration) ───────────────────────── */
+
+  /* [tool] CSS background pattern for blueprint surfaces — light grid lines
+     overlaid on the blueprint color. Used on hero and graph backgrounds.
+     Grid spacing 32px feels architectural without being noisy. */
+  --bp-grid-color:      rgba(255, 255, 255, 0.18);
+  --bp-grid-size:       32px;
+  --bp-grid-line:       1px;
+}
