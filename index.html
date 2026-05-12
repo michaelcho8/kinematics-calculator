@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Kinematics Calculator — Solve for Velocity, Acceleration, Displacement &amp; Time</title>
-  <meta name="description" content="Free kinematics calculator. Enter any 3 SUVAT variables and instantly solve for the other 2. Also includes projectile motion calculator." />
-  <meta name="keywords" content="kinematics calculator, SUVAT calculator, projectile motion calculator, solve for acceleration, kinematic equations solver, physics calculator" />
+  <title>Kinematics Calculator — 1D, 2D & Projectile Motion (Free, Instant)</title>
+  <meta name="description" content="Free kinematics calculator. Solve SUVAT (1D), 2D motion, and projectile flight instantly. Visual graphs included. Built for students and engineers." />
+  <meta name="keywords" content="kinematics calculator, SUVAT calculator, 2D kinematics, projectile motion calculator, position time graph, velocity time graph, kinematic equations solver, physics calculator" />
   <link rel="canonical" href="https://YOURDOMAIN.com/" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Kinematics Calculator — Solve SUVAT & Projectile Motion" />
-  <meta property="og:description" content="Enter any 3 SUVAT variables and solve for the other 2 instantly. Also solves projectile motion." />
+  <meta property="og:title" content="Kinematics Calculator — Solve 1D, 2D & Projectile Motion" />
+  <meta property="og:description" content="Instant SUVAT solver, 2D motion, and projectile flight with visual graphs. Free." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://YOURDOMAIN.com/" />
 
@@ -21,46 +21,90 @@
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Kinematics Calculator",
-    "description": "Free physics calculator for 1D kinematics (SUVAT) and projectile motion. Enter any 3 of 5 variables and solve instantly.",
+    "description": "Free physics calculator for 1D kinematics (SUVAT), 2D motion, and projectile motion. Includes instant solutions and visual graphs.",
     "applicationCategory": "EducationApplication",
     "operatingSystem": "Any",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
   }
   </script>
 
+  <!-- Fonts — Plus Jakarta Sans, 4 weights -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap">
+
+  <!-- Tokens then visual rules -->
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="style.css" />
+
   <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2584209104913819" crossorigin="anonymous"></script>
-
-  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
+  <!-- ════════════════════ HERO ════════════════════ -->
+
   <header class="hero">
-    <div class="container">
-      <h1>Kinematics Calculator</h1>
-      <p class="tagline">Enter any 3 of 5 SUVAT variables and solve for the other 2 instantly. Also solves projectile motion.</p>
+
+    <!-- Sky decoration: clouds + dotted paper-airplane trajectory -->
+    <svg class="hero-decor" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <!-- Soft cloud blobs -->
+      <ellipse cx="180"  cy="80"  rx="62" ry="22" fill="#FFFFFF" opacity="0.85"/>
+      <ellipse cx="220"  cy="70"  rx="48" ry="18" fill="#FFFFFF" opacity="0.85"/>
+      <ellipse cx="980"  cy="120" rx="74" ry="26" fill="#FFFFFF" opacity="0.85"/>
+      <ellipse cx="1030" cy="110" rx="52" ry="20" fill="#FFFFFF" opacity="0.85"/>
+      <ellipse cx="500"  cy="50"  rx="42" ry="14" fill="#FFFFFF" opacity="0.7"/>
+      <ellipse cx="850"  cy="320" rx="60" ry="20" fill="#FFFFFF" opacity="0.75"/>
+      <ellipse cx="120"  cy="300" rx="50" ry="16" fill="#FFFFFF" opacity="0.7"/>
+
+      <!-- Dotted trajectory path (the projectile-motion mascot) -->
+      <path d="M 80 320 Q 350 80 600 180 T 1120 100"
+            fill="none"
+            stroke="#FFFFFF"
+            stroke-width="3"
+            stroke-dasharray="4 8"
+            opacity="0.7"/>
+
+      <!-- Paper airplane at the end of the trajectory -->
+      <g transform="translate(1090 92) rotate(-18)">
+        <polygon points="0,0 28,12 12,14 18,28 4,16 0,0" fill="#FFFFFF" opacity="0.95"/>
+        <polyline points="4,16 12,14" fill="none" stroke="#0B3A66" stroke-width="1.2" opacity="0.4"/>
+      </g>
+    </svg>
+
+    <div class="hero-inner">
+      <div class="hero-text">
+        <h1 class="hero-title">Kinematics, made <span class="accent-word">simple</span>.</h1>
+        <p class="hero-tagline">Solve 1D SUVAT, 2D motion, and projectile flight in seconds — with visual graphs that show the motion.</p>
+      </div>
     </div>
   </header>
 
-  <!-- Ad: below hero -->
-  <div class="ad-slot container">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2584209104913819"
-      data-ad-slot="SLOT_ID_HERE" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-  </div>
+  <!-- ════════════════════ TOP AD SLOT ════════════════════ -->
+  <!-- AdSense slot HTML kept bytes-identical to v1; only wrapper changes -->
+
+  <section class="ad-row">
+    <div class="ad-slot container">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2584209104913819"
+        data-ad-slot="SLOT_ID_HERE" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </section>
+
+  <!-- ════════════════════ MAIN ════════════════════ -->
 
   <main class="container">
 
     <!-- Tabs -->
-    <div class="tabs">
-      <button class="tab-btn active" data-tab="tab-1d">1D Kinematics</button>
-      <button class="tab-btn" data-tab="tab-projectile">Projectile Motion</button>
+    <div class="tabs" role="tablist">
+      <button class="tab-btn active" data-tab="tab-1d" role="tab" aria-selected="true">1D Kinematics</button>
+      <button class="tab-btn" data-tab="tab-2d" role="tab" aria-selected="false">2D Motion</button>
+      <button class="tab-btn" data-tab="tab-projectile" role="tab" aria-selected="false">Projectile</button>
     </div>
 
     <!-- ===== 1D Kinematics ===== -->
-    <div id="tab-1d" class="tab-pane card">
+    <div id="tab-1d" class="tab-pane card" role="tabpanel">
 
-      <!-- Equations reference -->
       <div class="eq-ref">
         <span>v = u + at</span>
         <span>s = ut + ½at²</span>
@@ -68,7 +112,6 @@
         <span>s = ½(u + v)t</span>
       </div>
 
-      <!-- 5 variable inputs -->
       <div class="var-grid">
 
         <div class="var-group">
@@ -126,26 +169,133 @@
           </div>
         </div>
 
-      </div><!-- /var-grid -->
+      </div>
 
-      <!-- Status line -->
       <p id="status" class="status neutral">Fill in any 3 values to solve (0/3)</p>
 
-      <!-- Results -->
       <div id="result-card" class="result-card hidden">
         <h3>Solution</h3>
         <div id="result-body" class="result-body"></div>
       </div>
 
-      <button id="clear-btn" class="btn-secondary" style="margin-top:16px">Clear All</button>
+      <!-- Graph: position vs time + velocity vs time -->
+      <div class="graph-row hidden" id="graph-1d-wrap">
+        <div class="graph-panel">
+          <h4 class="graph-title">Position vs. Time</h4>
+          <svg id="graph-1d-pos" class="graph" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet" aria-label="Position over time"></svg>
+        </div>
+        <div class="graph-panel">
+          <h4 class="graph-title">Velocity vs. Time</h4>
+          <svg id="graph-1d-vel" class="graph" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet" aria-label="Velocity over time"></svg>
+        </div>
+      </div>
 
-    </div><!-- /tab-1d -->
+      <div class="actions-row">
+        <button id="clear-btn" class="btn-secondary">Clear all</button>
+        <button id="share-1d-btn" class="btn-secondary">Share this</button>
+      </div>
+
+    </div>
+
+    <!-- ===== 2D Motion ===== -->
+    <div id="tab-2d" class="tab-pane card hidden" role="tabpanel">
+
+      <h2>2D Motion</h2>
+      <p class="hint">Independent x and y components. Provide initial velocity, acceleration, and time — get final velocity, displacement, magnitudes, and angles.</p>
+
+      <div class="eq-ref">
+        <span>vₓ = uₓ + aₓt</span>
+        <span>vᵧ = uᵧ + aᵧt</span>
+        <span>sₓ = uₓt + ½aₓt²</span>
+        <span>sᵧ = uᵧt + ½aᵧt²</span>
+      </div>
+
+      <div class="var-grid var-grid-2d">
+
+        <div class="var-group">
+          <label for="in-ux">
+            <span class="var-sym">uₓ</span>
+            <span class="var-name">Initial velocity (x)</span>
+          </label>
+          <div class="var-input-row">
+            <input type="number" id="in-ux" placeholder="—" step="any" />
+            <span class="var-unit">m/s</span>
+          </div>
+        </div>
+
+        <div class="var-group">
+          <label for="in-uy">
+            <span class="var-sym">uᵧ</span>
+            <span class="var-name">Initial velocity (y)</span>
+          </label>
+          <div class="var-input-row">
+            <input type="number" id="in-uy" placeholder="—" step="any" />
+            <span class="var-unit">m/s</span>
+          </div>
+        </div>
+
+        <div class="var-group">
+          <label for="in-ax">
+            <span class="var-sym">aₓ</span>
+            <span class="var-name">Acceleration (x)</span>
+          </label>
+          <div class="var-input-row">
+            <input type="number" id="in-ax" placeholder="—" step="any" />
+            <span class="var-unit">m/s²</span>
+          </div>
+        </div>
+
+        <div class="var-group">
+          <label for="in-ay">
+            <span class="var-sym">aᵧ</span>
+            <span class="var-name">Acceleration (y)</span>
+          </label>
+          <div class="var-input-row">
+            <input type="number" id="in-ay" placeholder="—" step="any" />
+            <span class="var-unit">m/s²</span>
+          </div>
+        </div>
+
+        <div class="var-group">
+          <label for="in-t2">
+            <span class="var-sym">t</span>
+            <span class="var-name">Time</span>
+          </label>
+          <div class="var-input-row">
+            <input type="number" id="in-t2" placeholder="—" min="0" step="any" />
+            <span class="var-unit">s</span>
+          </div>
+        </div>
+
+      </div>
+
+      <p id="status-2d" class="status neutral">Fill in all 5 values to solve (0/5)</p>
+
+      <div id="result-2d-card" class="result-card hidden">
+        <h3>Solution</h3>
+        <div id="result-2d-body" class="result-body"></div>
+      </div>
+
+      <!-- Graph: 2D trajectory (x vs y) -->
+      <div class="graph-row single hidden" id="graph-2d-wrap">
+        <div class="graph-panel">
+          <h4 class="graph-title">Trajectory (x vs. y)</h4>
+          <svg id="graph-2d-path" class="graph graph-tall" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid meet" aria-label="2D trajectory"></svg>
+        </div>
+      </div>
+
+      <div class="actions-row">
+        <button id="clear-2d-btn" class="btn-secondary">Clear all</button>
+        <button id="share-2d-btn" class="btn-secondary">Share this</button>
+      </div>
+
+    </div>
 
     <!-- ===== Projectile Motion ===== -->
-    <div id="tab-projectile" class="tab-pane card hidden">
+    <div id="tab-projectile" class="tab-pane card hidden" role="tabpanel">
 
       <h2>Projectile Motion</h2>
-      <p class="hint">Enter initial speed, launch angle, and gravity. Results update instantly.</p>
+      <p class="hint">Enter initial speed, launch angle, and gravity. Results and the parabolic flight path update instantly.</p>
 
       <div class="proj-inputs">
         <label>
@@ -176,19 +326,44 @@
         <p class="hint">Enter a positive speed and an angle between 0° and 90°.</p>
       </div>
 
-    </div><!-- /tab-projectile -->
+      <!-- Graph: parabolic trajectory -->
+      <div class="graph-row single hidden" id="graph-proj-wrap">
+        <div class="graph-panel">
+          <h4 class="graph-title">Flight path</h4>
+          <svg id="graph-projectile" class="graph graph-tall" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid meet" aria-label="Projectile trajectory"></svg>
+        </div>
+      </div>
 
-    <!-- Ad: mid-page -->
+      <div class="actions-row">
+        <button id="share-proj-btn" class="btn-secondary">Share this</button>
+      </div>
+
+    </div>
+
+    <!-- ════════════════════ MID AD SLOT ════════════════════ -->
+    <!-- AdSense slot HTML kept bytes-identical to v1 -->
+
     <div class="ad-slot">
       <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2584209104913819"
         data-ad-slot="SLOT_ID_HERE" data-ad-format="auto" data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <!-- SEO explainer -->
+    <!-- ════════════════════ TUTORING CTA ════════════════════ -->
+
+    <section class="cta-card">
+      <div class="cta-text">
+        <h2>Stuck on a physics problem?</h2>
+        <p>I tutor STEM 1-on-1 — SAT, AP Physics, intro college mechanics. First session is free.</p>
+      </div>
+      <a class="cta-button" href="mailto:choind88@gmail.com?subject=Physics%20tutoring%20inquiry">Book a session</a>
+    </section>
+
+    <!-- ════════════════════ EXPLAINER ════════════════════ -->
+
     <section class="card explainer">
       <h2>Kinematic Equations — SUVAT Reference</h2>
-      <p>These four equations relate the five kinematic variables: initial velocity (u), final velocity (v), acceleration (a), displacement (s), and time (t). If you know any three, you can solve for the other two.</p>
+      <p>These four equations relate the five 1D kinematic variables: initial velocity (u), final velocity (v), acceleration (a), displacement (s), and time (t). If you know any three, you can solve for the other two.</p>
 
       <div class="eq-table">
         <div class="eq-row"><span class="eq">v = u + at</span><span class="eq-note">Final velocity from initial velocity, acceleration, and time</span></div>
@@ -197,12 +372,20 @@
         <div class="eq-row"><span class="eq">s = ½(u + v)t</span><span class="eq-note">Average velocity × time (constant acceleration only)</span></div>
       </div>
 
-      <h3>How projectile motion works</h3>
-      <p>Projectile motion decomposes into two independent components: horizontal (constant velocity, no acceleration) and vertical (accelerated by gravity). The calculator applies these formulas:</p>
+      <h3>2D motion — independent x and y components</h3>
+      <p>2D motion treats horizontal and vertical components separately. Each component obeys the same 1D equations, sharing the time t:</p>
       <ul class="eq-list">
-        <li><strong>vₓ = v₀ cos θ</strong> — horizontal component</li>
-        <li><strong>vᵧ = v₀ sin θ</strong> — vertical component</li>
-        <li><strong>T = 2vᵧ / g</strong> — total time of flight</li>
+        <li><strong>vₓ = uₓ + aₓt, vᵧ = uᵧ + aᵧt</strong> — final velocity components</li>
+        <li><strong>sₓ = uₓt + ½aₓt², sᵧ = uᵧt + ½aᵧt²</strong> — displacement components</li>
+        <li><strong>|v| = √(vₓ² + vᵧ²), angle = atan2(vᵧ, vₓ)</strong> — magnitude and direction</li>
+      </ul>
+
+      <h3>Projectile motion is a special case of 2D</h3>
+      <p>Projectile motion has no horizontal acceleration (aₓ = 0) and constant downward gravity (aᵧ = −g). The calculator decomposes the launch into components:</p>
+      <ul class="eq-list">
+        <li><strong>vₓ = v₀ cos θ</strong> — horizontal velocity (constant)</li>
+        <li><strong>vᵧ = v₀ sin θ</strong> — initial vertical velocity</li>
+        <li><strong>T = 2vᵧ / g</strong> — total time of flight (returns to launch height)</li>
         <li><strong>H = vᵧ² / 2g</strong> — maximum height</li>
         <li><strong>R = vₓ · T</strong> — horizontal range</li>
       </ul>
@@ -216,7 +399,9 @@
     </div>
   </footer>
 
-  <!-- Ad: footer -->
+  <!-- ════════════════════ FOOTER AD SLOT ════════════════════ -->
+  <!-- AdSense slot HTML kept bytes-identical to v1 -->
+
   <div class="ad-slot container ad-footer">
     <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2584209104913819"
       data-ad-slot="SLOT_ID_HERE" data-ad-format="auto" data-full-width-responsive="true"></ins>
@@ -224,6 +409,6 @@
   </div>
 
   <script src="js/kinematics.js"></script>
-  <script src="js/main.js"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
