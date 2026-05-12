@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 
-const { solve1D, solveProjectile } = require("./js/kinematics.js");
+const { solve1D, solveProjectile, solve2D } = require("./js/kinematics.js");
 
 let failures = 0;
 function run(name, cond) {
@@ -57,7 +57,50 @@ const p3 = solveProjectile(10, 90, 9.8);
 run("90° launch → vx = 0",    p3.vx === 0);
 run("90° launch → H > 0",     p3.H > 0);
 
-const total = 19;
+// ===== 2D: zero acceleration (constant velocity) =====
+const d1 = solve2D({ ux: 10, uy: 0, ax: 0, ay: 0, t: 5 });
+run("2D no-accel: vx=10",       d1.vx === 10);
+run("2D no-accel: vy=0",        d1.vy === 0);
+run("2D no-accel: sx=50",       d1.sx === 50);
+run("2D no-accel: sy=0",        d1.sy === 0);
+
+// ===== 2D: free fall (drop) =====
+const d2 = solve2D({ ux: 0, uy: 0, ax: 0, ay: -9.8, t: 2 });
+run("2D free-fall: vy=-19.6",   Math.abs(d2.vy - (-19.6)) < 1e-6);
+run("2D free-fall: sy=-19.6",   Math.abs(d2.sy - (-19.6)) < 1e-6);
+
+// ===== 2D: 45° launch — should mirror projectile at the same instant =====
+const d3 = solve2D({ ux: 14.142, uy: 14.142, ax: 0, ay: -9.8, t: 1 });
+run("2D 45° t=1 vx≈14.142",     Math.abs(d3.vx - 14.142) < 0.01);
+run("2D 45° t=1 vy≈4.342",      Math.abs(d3.vy - 4.342) < 0.01);
+
+// ===== 2D: equivalence with solveProjectile at peak (vy = 0) =====
+const v0 = 20, angle = 45, g = 9.8;
+const proj = solveProjectile(v0, angle, g);
+const t_peak = proj.vy / g;
+const d4 = solve2D({ ux: proj.vx, uy: proj.vy, ax: 0, ay: -g, t: t_peak });
+run("2D at peak: vy ≈ 0",       Math.abs(d4.vy) < 0.01);
+run("2D at peak: vx unchanged", Math.abs(d4.vx - proj.vx) < 0.01);
+
+// ===== 2D: angle + magnitude convenience outputs (3-4-5 triangle) =====
+const d5 = solve2D({ ux: 3, uy: 4, ax: 0, ay: 0, t: 1 });
+run("2D 3-4 init speed = 5",    d5.speed_init === 5);
+run("2D 3-4 angle ≈ 53.13°",    Math.abs(d5.angle_init - 53.13) < 0.01);
+
+// ===== 2D: time = 0 edge case (no motion yet) =====
+const d6 = solve2D({ ux: 5, uy: 5, ax: 2, ay: 3, t: 0 });
+run("2D t=0 vx=ux",             d6.vx === 5);
+run("2D t=0 vy=uy",             d6.vy === 5);
+run("2D t=0 sx=0",              d6.sx === 0);
+
+// ===== 2D: error cases =====
+const dErr1 = solve2D({ ux: 1, uy: 2, ax: 3, ay: null, t: 1 });
+run("2D missing input → error", dErr1.error !== null);
+
+const dErr2 = solve2D({ ux: 1, uy: 2, ax: 3, ay: 4, t: -1 });
+run("2D negative t → error",    dErr2.error !== null);
+
+const total = 19 + 16;
 const passed = total - failures;
 console.log(`\n${passed}/${total} tests passed` + (failures === 0 ? " — all good." : ` — ${failures} FAILED.`));
 process.exit(failures === 0 ? 0 : 1);

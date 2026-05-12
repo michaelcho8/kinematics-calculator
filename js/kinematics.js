@@ -98,6 +98,58 @@ function solveProjectile(v0, angleDeg, g) {
   return { vx: r3(vx), vy: r3(vy), T: r3(T), H: r3(H), R: r3(R) };
 }
 
+// 2D kinematics — simple forward solver.
+// Inputs: ux, uy (initial velocity components), ax, ay (acceleration
+// components), t (time elapsed). Returns final velocity (vx, vy),
+// displacement (sx, sy), and convenience magnitudes + angles in degrees.
+// This is a special case of 1D applied independently to each axis with a
+// shared time. Projectile is a further special case: ax=0, ay=-g.
+function solve2D({ ux, uy, ax, ay, t }) {
+  // Coerce + validate
+  const parse = v => (v !== null && v !== undefined && v !== "") ? parseFloat(v) : NaN;
+  ux = parse(ux); uy = parse(uy); ax = parse(ax); ay = parse(ay); t = parse(t);
+
+  if (![ux, uy, ax, ay, t].every(Number.isFinite)) {
+    return { error: "All five values (ux, uy, ax, ay, t) must be finite numbers." };
+  }
+  if (t < 0) {
+    return { error: "Time cannot be negative." };
+  }
+
+  const r3 = n => Math.round(n * 1000) / 1000;
+  const toDeg = rad => rad * 180 / Math.PI;
+
+  const vx = ux + ax * t;
+  const vy = uy + ay * t;
+  const sx = ux * t + 0.5 * ax * t * t;
+  const sy = uy * t + 0.5 * ay * t * t;
+
+  const speed_init  = Math.hypot(ux, uy);
+  const speed_final = Math.hypot(vx, vy);
+  const s_mag       = Math.hypot(sx, sy);
+
+  // Angle conventions: atan2 returns radians in (-π, π].
+  // Convert to degrees. 0° = +x axis, 90° = +y axis, etc.
+  // If initial velocity is the zero vector, angle is undefined — report 0.
+  const angle_init  = (ux === 0 && uy === 0) ? 0 : toDeg(Math.atan2(uy, ux));
+  const angle_final = (vx === 0 && vy === 0) ? 0 : toDeg(Math.atan2(vy, vx));
+  const s_angle     = (sx === 0 && sy === 0) ? 0 : toDeg(Math.atan2(sy, sx));
+
+  return {
+    vx: r3(vx),
+    vy: r3(vy),
+    sx: r3(sx),
+    sy: r3(sy),
+    speed_init:  r3(speed_init),
+    speed_final: r3(speed_final),
+    s_mag:       r3(s_mag),
+    angle_init:  r3(angle_init),
+    angle_final: r3(angle_final),
+    s_angle:     r3(s_angle),
+    error: null,
+  };
+}
+
 if (typeof module !== "undefined") {
-  module.exports = { solve1D, solveProjectile };
+  module.exports = { solve1D, solveProjectile, solve2D };
 }
