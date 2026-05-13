@@ -17,9 +17,31 @@ body {
   font-size: var(--text-base);
   line-height: var(--leading-base);
   color: var(--color-ink);
-  background: var(--color-cream);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+
+  /* Whole-page sky: a vertical gradient from saturated sky at the top to cream
+     near the bottom, locked to the viewport so it stays consistent on scroll. */
+  background:
+    linear-gradient(180deg,
+      var(--color-sky) 0%,
+      var(--color-sky-soft) 35%,
+      var(--color-cream) 90%) fixed;
+  min-height: 100vh;
+}
+
+/* Ambient cloud layer over the entire page. Fixed-position so it doesn't
+   scroll with content; low opacity so content cards remain legible. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url('clouds.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: -1;
 }
 
 h1, h2, h3, h4 {
@@ -61,7 +83,9 @@ a:hover { color: var(--color-accent-deep); }
 .hero {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(180deg, var(--color-sky) 0%, var(--color-sky-soft) 100%);
+  /* Background now comes from body's sky gradient + the cloud layer; hero
+     itself is transparent so the inline cloud + paper-airplane decoration
+     reads on top of that ambient sky. */
   padding: var(--space-8) var(--space-5) var(--space-9);
   color: var(--color-ink);
 }
@@ -103,7 +127,6 @@ a:hover { color: var(--color-accent-deep); }
 
 .ad-row {
   padding: var(--space-5) 0;
-  background: var(--color-cream);
 }
 
 .ad-slot {
